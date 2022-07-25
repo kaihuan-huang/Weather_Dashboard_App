@@ -1,0 +1,61 @@
+:root {
+    --cardHeader: #06283D;
+    --cardText: #DFF6FF;
+    --button: #47B5FF;
+    --border-radius: 0.3rem;
+
+}
+
+* {
+    box-sizing: border-box;
+    border-radius: var(--border-radius);
+    line-height: 5px;
+
+}
+
+
+
+body {
+    background-color: azure;
+    font-family: 'Times New Roman', Times, serif;
+    color: var(--cardHeader);
+    height: 100vh;
+
+}
+
+header {
+    margin: 15px;
+
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--cardText);
+    background-color: var(--cardHeader);
+    text-align: center;
+
+}
+
+.input-section {
+    color: var(--cardText);
+    background-color: var(--cardHeader);
+    text-align: center;
+}
+
+.btn {
+    background-color: var(--button);
+    color: azure;
+    text-decoration: none;
+}
+
+/* .hidden {
+    display: none;
+} */
+
+.show {
+    display: block;
+}

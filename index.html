@@ -21,18 +21,56 @@
         <div class="col-12">
             <!-- the city input section, search button-->
             <div class="col-12 col-md-4 input-section">
-                <h3 class="input-title">Search For A City</h3>
+                <h3 class="input-title">Search For A City
+
+                </h3>
                 <form action="input" id="city-form">
                     <label for="cityname" class="city-name">City Name</label>
-                    <input type="text">
+                    <input type="text" id="city-name">
                     <button class="btn submit-btn">Search</button>
                 </form>
+
+            </div>
+
+            <!-- city weather display -->
+            <div class="col-12 col-md-8">
+                <div class="card hidden" id="current-weather-card">
+                    <h3 class="card-header" id="weather-status">weather status
+                    </h3>
+                    <div class="card-body" id="current-weather-list">
+                        <!-- here diaplay weather list -->
+                    </div>
+                </div>
             </div>
         </div>
 
+        <!-- search history -->
+        <div class="col-12">
+            <div class="col-12 col-md-4" id="search-history">
+                <div class="card hidden">
+                    <h3 class="history-header">Search History
 
+                    </h3>
+                    <button class="btn history-btn">Clear
+                        <i class="fa-solid fa-trash-can" id="clear"></i></button>
+                    <div class="history-card card">
+                        <!-- here is the history-search-list -->
+                    </div>
+                </div>
+            </div>
+            <!-- 5 Day Forecast -->
+            <div class="col-12 col-md-8">
+                <div class="card hidden" id="forecast-card">
+                    <h3 class="forecast-header">5 Day Forecast
+                        <i class="fa-solid fa-calendar-days"></i>
+                    </h3>
+                    <div class="card-body" id="forecast">
+                        <!-- here display the forecast list -->
+                    </div>
+                </div>
 
-
+            </div>
+        </div>
 
     </section>
 
