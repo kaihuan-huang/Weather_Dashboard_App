@@ -52,10 +52,18 @@ h6 {
     text-decoration: none;
 }
 
-/* .hidden {
+.hidden {
     display: none;
-} */
+}
 
-.show {
-    display: block;
+.uvGreen {
+    color: green;
+}
+
+.uvYellow {
+    color: yellow;
+}
+
+.uvRed {
+    color: red;
 }
