@@ -18,7 +18,7 @@ var formSubmitHandler = function(event){
         localStorage.setItem("searchWeather", JSON.stringify(historyList));
         currentWeatherContainerEl.textContent = '';
         cityName.value = '';
-        fetchWeather(city);
+        fetchWeather(cityName);
     }
     else{
         alert("Please inpu a value city name.")
@@ -29,20 +29,50 @@ submitFormEl.addEventListener('submit', formSubmitHandler);
 
 
 //get the api key from Open Weather.com https://home.openweathermap.org/api_keys
-var apiKey = "d4a8a192fa2a47a2a72aca5e2a14cb93";
-var fetchWeather =function(city){
-    fetch(
-        "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + apiKey
-    )
-    .then((response)=> response.json())
-    .then((data)=> displayWeather(data));
+// var apiKey = "d4a8a192fa2a47a2a72aca5e2a14cb93";
+// var fetchWeather =function(city){
+//     fetch(
+//         "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=" + apiKey
+//     )
+//     .then((response)=> response.json())
+//     .then((data)=> displayWeather(data));
+// };
+var fetchWeather = function(cityName){
+    var apiKey = "d4a8a192fa2a47a2a72aca5e2a14cb93";
+    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&units=imperial&appid=" + apiKey;
+
+    fetch(apiUrl)
+    .then(function(response){
+        if (response.ok){
+            console.log(response);
+            response.json().then(function(data){
+                console.log(data);
+                displayWeather(data, cityName);
+            });
+        }else{
+            alert('Error: ' + response.statusText);
+        }
+    })
+    .catch(function(error){
+        alert('Unable to connect to Open Weather API.')
+    });
 };
+
+var displayWeather = function (weather, searchWeather){
+    if (weather.length === 0){
+        currentWeatherContainerEl.textContent = 'No weather information found.'
+        return;
+    }
+    currentWeatherEl.textContent = searchWeather;
+
+}
 
 var displayWeatherHead = function(data){
     // find out all the element display on the page, and replace their content
    var city = data.name;
    var date = (today.getMonth()) + "/" + today.getDate() + "/" +today.getFullYear();
    var weatherIcon = data.weather[0].icon;
+   console.log(weatherIcon);
    var weatherDescription = data.weather[0].description;
    //get icon url http://openweathermap.org/img/wn/10d@2x.png
    console.log(city, date, weather, weatherDescription);
@@ -91,9 +121,6 @@ var displayWeatherBody = function(weather){
     currentWeatherEl.appendChild(uvIndex);
     uvIndexValue = weather.current.uvIndex.toFixed(1) ;
     //according UV Index number to display diferent color:
-
-
-
 
 }
 
