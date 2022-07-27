@@ -1,7 +1,8 @@
-var today = new Date()
+var today = new Date();
 var cityNameInputEl = document.querySelector("#city-name");
-var clearHistoryEl = document.querySelector("#clear")
-var historySearchListEl = document.querySelector("#history-search-list")
+var clearHistoryEl = document.querySelector("#clear");
+var historySearchListEl = document.querySelector("#history-search-list");
+var historyCardEl = document.querySelector('#search-history');
 var currentWeatherEl =document.querySelector("#weather-status");
 var submitFormEl = document.querySelector("#city-form");
 var currentWeatherContainerEl = document.querySelector("#current-weather-list");
@@ -69,6 +70,10 @@ var fetchWeather = function(cityName){
                     weatherData = data;
                     console.log(weatherData);
                     displayWeather(weatherData, cityName);
+                    currentWeatherCardEl.classList.remove("hidden");
+                    fiveDayforcastCardEl.classList.remove("hidden");
+                    historyCardEl.classList.remove("hidden");
+                    historySearchListEl.append(cityName);
 
                 } )
         })
@@ -138,6 +143,9 @@ var displayWeather = function (weatherData, searchWeather){
     }
     currentWeatherEl.innerHTML = searchWeather;
 
+    //Create date and weatherIcon
+
+
     //Create Temperature to the Weather Body list
     var temperature = document.createElement('p');
     temperature.id = "temperature";
@@ -156,7 +164,7 @@ var displayWeather = function (weatherData, searchWeather){
     var humidity = document.createElement('p');
     humidity.setAttribute('id','humidity');
     //toFixed(0)保留0位小数
-    humidity.innerHTML = "<strong>Humidity: </strong>" + weatherData.current.humidity.toFixed(0) + "%";
+    humidity.innerHTML = "<strong> Humidity: </strong>" + weatherData.current.humidity.toFixed(0) + "%";
     currentWeatherContainerEl.appendChild(humidity);
 
     //Create UV Index to the Weather Body list
@@ -215,7 +223,7 @@ loadHistory();
 
 //clear search history
 var clearHistory = function(event){
-    localStorage.removeItem('searchWeather');
+    localStorage.removeItem('');
     clearHistory.className = "hidden";
 }
 
