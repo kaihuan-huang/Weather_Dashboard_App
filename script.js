@@ -8,6 +8,7 @@ var submitFormEl = document.querySelector("#city-form");
 var currentWeatherContainerEl = document.querySelector("#current-weather-list");
 var currentWeatherCardEl = document.querySelector("#current-weather-card");
 var fiveDayforcastCardEl = document.querySelector("#forecast-card");
+var historyCardButton = document.querySelector("#history-card");
 var historyList =[];
 var weatherData = [];
 
@@ -20,7 +21,7 @@ var formSubmitHandler = function(event){
     //set city name in local storage and generate history button
     if (cityName){
         historyList.push(cityName);
-        localStorage.setItem("cityName", JSON.stringify(historyList));
+        localStorage.setItem("searchWeather", JSON.stringify(historyList));
         currentWeatherContainerEl.textContent = '';
         cityName.value = '';
         fetchWeather(cityName);
@@ -100,6 +101,7 @@ var displayWeather = function (weatherData, cityName){
     var weatherDescription = weatherData.current.weather[0].description;
     //get icon url http://openweathermap.org/img/wn/10d@2x.png
     console.log(cityName, date, weatherData, weatherDescription);
+
     var weatherIconLink = "<img src='http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png' alt='" + weatherDescription + "' title='" + weatherDescription + "'  />"
     //update weather-status to show city , date and icon
     currentWeatherEl.innerHTML = cityName +': ' + date + weatherIconLink
@@ -163,28 +165,41 @@ var displayWeather = function (weatherData, cityName){
 
 }
 
-
-
 //load city search history
 var loadHistory = function(){
-    searchArray = JSON.parse(localStorage.getItem('cityName'));
+    searchArray = JSON.parse(localStorage.getItem('searchWeather'));
     if(searchArray){
-        historyList = JSON.parse(localStorage.getItem('cityName'));
+        historyList = JSON.parse(localStorage.getItem('searchWeather'));
         for (let i = 0; i < searchArray; i++){
-            historySearchListEl.textContent = searchArray[i];
+            var newBtn = document.createElement("button");
+            newBtn.setAttribute("type", "button");
+            newBtn.textContent = searchArray[1];
+            historyCardButton.innerHTML = ' ';
+            historyCardButton.innerHTML = newBtn;
         }
         
     }
 }
 loadHistory();
 
-//click 
+//click history list btn
+var historySearchButton = function(event){
+    // var cityName = event.target.getAttribute('history-search-list');
+    var cityName = document.getElementById("history-search-list");
+    var cityNameSearch = cityName.textContent;
+    console.log(cityNameSearch);
+  
+    if (cityNameSearch){
+        fetchWeather(cityNameSearch);
+    }
+}
+historySearchListEl.addEventListener("click",historySearchButton);
 
 //clear search history
+
 var clearHistory = function(event){
-    localStorage.removeItem('cityName');
+    localStorage.removeItem('searchWeather');
     clearHistory.className = "hidden";
-    
 }
 
 clearHistoryEl.addEventListener('click', clearHistory)
