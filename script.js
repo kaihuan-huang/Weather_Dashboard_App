@@ -10,6 +10,7 @@ var currentWeatherCardEl = document.querySelector("#current-weather-card");
 var fiveDayforcastCardEl = document.querySelector("#forecast-card");
 var historyList =[];
 var weatherData = [];
+
 //search by city 
 var formSubmitHandler = function(event){
     event.preventDefault();
@@ -19,7 +20,7 @@ var formSubmitHandler = function(event){
     //set city name in local storage and generate history button
     if (cityName){
         historyList.push(cityName);
-        localStorage.setItem("searchWeather", JSON.stringify(historyList));
+        localStorage.setItem("cityName", JSON.stringify(historyList));
         currentWeatherContainerEl.textContent = '';
         cityName.value = '';
         fetchWeather(cityName);
@@ -81,72 +82,27 @@ var fetchWeather = function(cityName){
             console.log(error);
             alert('Unable to connect to Open Weather API.' + error)
         });
-    
-    // fetch(latUrl, method())
-    //     .then(function(response){
-    //         console.log(response);
-    //         if (response.ok){
-    //             console.log(response);
-    //             fetch(apiUrl)
-    //                 .then(response.ok){
-                        
-    //                 }
-        //         //`http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=5&appid=${apiKey}`            
-                
-        //         var latitude = response.coord.lat;
-        //         var longitude = response.coord.lon;
-                
-        //         response.json().then(function(data){
-        //             console.log(data);
-        //             displayWeather(response);
-        //             var city = data.name;
-        //             var date = (today.getMonth()) + "/" + today.getDate() + "/" +today.getFullYear();
-        //             var weatherIcon = data.weather[0].icon;
-        //             console.log(weatherIcon);
-        //             var weatherDescription = data.weather[0].description;
-        //             //get icon url http://openweathermap.org/img/wn/10d@2x.png
-        //             console.log(city, date, weather, weatherDescription);
-        //             var weatherIconLink = "<img src='http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png' alt='" + weatherDescription + "' title='" + weatherDescription + "'  />"
-        //             //update weather-status to show city , date and icon
-        //             currentWeatherEl.innerHTML = city + date + weatherIconLink
-        //             //show the current weather
-        //             currentWeatherCardEl.classList.remove("hidden");
-        //             fiveDayforcastCardEl.classList.remove("hidden");
-
-        //             // Return a fetch request to the OpenWeather using longitude and latitude from pervious fetch
-        //             // return fetch('https://api.openweathermap.org/data/2.5/onecall?lat=' + latitude + '&lon=' + longitude + '&exclude=alerts,minutely,hourly&units=imperial&appid=d4a8a192fa2a47a2a72aca5e2a14cb93');
-        //         });
-                
-        //     }else{
-        //         alert('Error 1: ' + response.statusText);
-        //     }
-        // })
-        // // .then(function(response){
-        // //     return response.JSON();
-        
-        // // })
-        // // .then(function(response){
-        // //     console.log(response);
-        // //     displayWeather(response);
-        // // })
-//         .catch(function(error){
-//             console.log(error);
-//             alert('Unable to connect to Open Weather API.' + error)
-//         });
 };
 
-var displayWeather = function (weatherData, searchWeather){
+var displayWeather = function (weatherData, cityName){
     console.log(weatherData);
+    var cityName = cityNameInputEl.value.trim();
+
     if (weatherData.length === 0){
         currentWeatherContainerEl.textContent = 'No weather information found.'
         return;
     }
-    currentWeatherEl.innerHTML = searchWeather;
 
-    //Create date and weatherIcon
-    
-
-
+    //Create date and weatherIcon to head
+    var date = (today.getMonth()) + "/" + today.getDate() + "/" +today.getFullYear();
+    var weatherIcon = weatherData.current.weather[0].icon;
+    // console.log(weatherIcon);
+    var weatherDescription = weatherData.current.weather[0].description;
+    //get icon url http://openweathermap.org/img/wn/10d@2x.png
+    console.log(cityName, date, weatherData, weatherDescription);
+    var weatherIconLink = "<img src='http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png' alt='" + weatherDescription + "' title='" + weatherDescription + "'  />"
+    //update weather-status to show city , date and icon
+    currentWeatherEl.innerHTML = cityName +': ' + date + weatherIconLink
 
     //Create Temperature to the Weather Body list
     var temperature = document.createElement('p');
@@ -188,7 +144,6 @@ var displayWeather = function (weatherData, searchWeather){
 
     //5 day forcast api api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
     var forecastArray = weatherData.daily;
-
     // create day cards for extended forecast 
     for (let i = 0; i < forecastArray.length - 3; i++) {
         var date = (today.getMonth() + 1) + '/' + (today.getDate() + i + 1) + '/' + today.getFullYear();
@@ -196,7 +151,7 @@ var displayWeather = function (weatherData, searchWeather){
         var weatherDescription = forecastArray[i].weather[0].description;
         var weatherIconLink = "<img src='http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png' alt='" + weatherDescription + "' title='" + weatherDescription + "'  />"
         var dayEl = document.createElement("div");
-        dayEl.className = "day";
+        dayEl.className = "day row";
         dayEl.innerHTML = "<p><strong>" + date + "</strong></p>" +
             "<p>" + weatherIconLink + "</p>" +
             "<p><strong>Temp:</strong> " + forecastArray[i].temp.day.toFixed(1) + "°F</p>" +
@@ -212,9 +167,9 @@ var displayWeather = function (weatherData, searchWeather){
 
 //load city search history
 var loadHistory = function(){
-    searchArray = JSON.parse(localStorage.getItem('searchWeather'));
+    searchArray = JSON.parse(localStorage.getItem('cityName'));
     if(searchArray){
-        historyList = JSON.parse(localStorage.getItem('searchWeather'));
+        historyList = JSON.parse(localStorage.getItem('cityName'));
         for (let i = 0; i < searchArray; i++){
             historySearchListEl.textContent = searchArray[i];
         }
@@ -223,10 +178,13 @@ var loadHistory = function(){
 }
 loadHistory();
 
+//click 
+
 //clear search history
 var clearHistory = function(event){
-    localStorage.removeItem('');
+    localStorage.removeItem('cityName');
     clearHistory.className = "hidden";
+    
 }
 
 clearHistoryEl.addEventListener('click', clearHistory)
