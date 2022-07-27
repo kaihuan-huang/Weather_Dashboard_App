@@ -25,6 +25,8 @@ Mock-up
 The following images demonstrate the web application's appearance:
 
 ![Start Page](images/start.png)
+
 ![Main Page](images/main.png)
+
 
 ---
