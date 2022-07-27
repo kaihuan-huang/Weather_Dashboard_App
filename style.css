@@ -20,6 +20,7 @@ body {
     font-family: 'Times New Roman', Times, serif;
     color: var(--cardHeader);
     height: 100vh;
+    display: inline;
 
 }
 

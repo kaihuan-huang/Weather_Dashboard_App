@@ -144,6 +144,8 @@ var displayWeather = function (weatherData, searchWeather){
     currentWeatherEl.innerHTML = searchWeather;
 
     //Create date and weatherIcon
+    
+
 
 
     //Create Temperature to the Weather Body list
