@@ -19,8 +19,9 @@ body {
     background-color: azure;
     font-family: 'Times New Roman', Times, serif;
     color: var(--cardHeader);
-    height: 100vh;
-    display: inline;
+    height: 150vh;
+
+
 
 }
 
@@ -67,4 +68,8 @@ h6 {
 
 .uvRed {
     color: red;
+}
+
+#weather-status {
+    background-color: var(--cardHeader);
 }

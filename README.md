@@ -1,4 +1,5 @@
 # Weather_Dashboard_App
+
 ## Description
 
 A Weather Dashboard application allows a user to see the weather outlook for multiple cities.
@@ -17,15 +18,13 @@ Gitpage: https://kaihuan-huang.github.io/Weather_Dashboard_App/
 
 - Clicked on a city in the search history will present with current and future conditions for that city again;
 
-
-
 Mock-up
 
 ## Screenshots
 
 The following images demonstrate the web application's appearance:
 
-![Start Page](images/Start-Section.png)
-![Question Page](images/Question-section.png)
+![Start Page](images/start.png.png)
+![Question Page](images/main.png.png)
 
 ---
