@@ -18,7 +18,7 @@
     </header>
 
     <section class="container row">
-        <div class="row">
+        <div class="col-md-4">
             <!-- the city input section, search button-->
             <div class="col-12 input-section card">
                 <h3 class="input-title">Search For A City
@@ -31,21 +31,20 @@
                 </form>
 
             </div>
-
-            <!-- city weather display -->
-            <div class="row">
-                <div class="card hidden" id="current-weather-card">
-                    <h3 class="card-header" id="weather-status">weather status
-                    </h3>
-                    <div class="card-body" id="current-weather-list">
-                        <!-- here diaplay weather list -->
-                    </div>
+        </div>
+        <!-- city weather display -->
+        <div class="col-md-8">
+            <div class="card hidden" id="current-weather-card">
+                <h3 class="card-header" id="weather-status">weather status
+                </h3>
+                <div class="card-body" id="current-weather-list">
+                    <!-- here diaplay weather list -->
                 </div>
             </div>
         </div>
 
         <!-- search history -->
-        <div class="row">
+        <div class="col-md-4">
             <div class="col-12 hidden" id="search-history">
                 <div class="card ">
                     <h3 class="history-header">Search History
@@ -59,18 +58,19 @@
                     </div>
                 </div>
             </div>
-            <!-- 5 Day Forecast -->
-            <div class="row">
-                <div class="hidden row" id="forecast-card">
-                    <h3 class="forecast-header">5 Day Forecast
-                        <i class="fa-solid fa-calendar-days"></i>
-                    </h3>
-                    <div class="card-body" id="forecast">
-                        <!-- here display the forecast list -->
-                    </div>
-                </div>
+        </div>
 
+        <!-- 5 Day Forecast -->
+        <div class="col-md-8">
+            <div class="hidden row" id="forecast-card">
+                <h3 class="forecast-header">5 Day Forecast
+                    <i class="fa-solid fa-calendar-days"></i>
+                </h3>
+                <div class="card-body" id="forecast">
+                    <!-- here display the forecast list -->
+                </div>
             </div>
+
         </div>
 
     </section>
