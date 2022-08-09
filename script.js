@@ -1,14 +1,14 @@
 var today = new Date();
 var cityNameInputEl = document.querySelector("#city-name");
 var clearHistoryEl = document.querySelector("#clear");
-var historySearchListEl = document.querySelector("#history-search-list");
+// var historySearchListEl = document.querySelector("#history-search-list");
 var historyCardEl = document.querySelector('#search-history');
 var currentWeatherEl = document.querySelector("#weather-status");
 var submitFormEl = document.querySelector("#city-form");
 var currentWeatherContainerEl = document.querySelector("#current-weather-list");
 var currentWeatherCardEl = document.querySelector("#current-weather-card");
 var fiveDayforcastCardEl = document.querySelector("#forecast-card");
-var historyCardButton = document.querySelector("#history-card");
+var historyCardButtonContainer = document.querySelector("#history-card");
 var historyList = [];
 var weatherData = [];
 
@@ -25,6 +25,7 @@ var formSubmitHandler = function (event) {
         currentWeatherContainerEl.textContent = '';
         cityName.value = '';
         fetchWeather(cityName);
+        loadHistory();
     }
     else {
         alert("Please inpu a value city name.")
@@ -35,6 +36,7 @@ submitFormEl.addEventListener('submit', formSubmitHandler);
 var apiUrl = 'https://api.openweathermap.org/data/2.5/onecall?lat={lat}&lon={lon}&exclude={part}&appid=' + apiKey;
 var apiKey = "d4a8a192fa2a47a2a72aca5e2a14cb93"
 //get the api key from Open Weather.com https://home.openweathermap.org/api_keys
+
 var fetchWeather = function (cityName) {
 
     let latUrl =
@@ -75,8 +77,6 @@ var fetchWeather = function (cityName) {
                     currentWeatherCardEl.classList.remove("hidden");
                     fiveDayforcastCardEl.classList.remove("hidden");
                     historyCardEl.classList.remove("hidden");
-                    historySearchListEl.append(cityName);
-
                 })
         })
         .catch(function (error) {
@@ -87,7 +87,6 @@ var fetchWeather = function (cityName) {
 
 var displayWeather = function (weatherData, cityName) {
     console.log(weatherData);
-    var cityName = cityNameInputEl.value.trim();
 
     if (weatherData.length === 0) {
         currentWeatherContainerEl.textContent = 'No weather information found.'
@@ -153,7 +152,7 @@ var displayWeather = function (weatherData, cityName) {
         var weatherDescription = forecastArray[i].weather[0].description;
         var weatherIconLink = "<img src='http://openweathermap.org/img/wn/" + weatherIcon + "@2x.png' alt='" + weatherDescription + "' title='" + weatherDescription + "'  />"
         var dayEl = document.createElement("div");
-        dayEl.className = "day row";
+        dayEl.className = "day col-md-2";
         dayEl.innerHTML = "<p><strong>" + date + "</strong></p>" +
             "<p>" + weatherIconLink + "</p>" +
             "<p><strong>Temp:</strong> " + forecastArray[i].temp.day.toFixed(1) + "°F</p>" +
@@ -168,15 +167,17 @@ var displayWeather = function (weatherData, cityName) {
 
 //load city search history
 var loadHistory = function () {
-    searchArray = JSON.parse(localStorage.getItem('searchWeather'));
-    if (searchArray) {
-        historyList = JSON.parse(localStorage.getItem('searchWeather'));
-        for (let i = 0; i < searchArray; i++) {
+    historyList = JSON.parse(localStorage.getItem('searchWeather')) || [];
+    historyCardButtonContainer.textContent = '';
+    if (historyList.length) {
+
+        for (let i = 0; i < historyList.length; i++) {
             var newBtn = document.createElement("button");
             newBtn.setAttribute("type", "button");
-            newBtn.textContent = searchArray[1];
-            historyCardButton.innerHTML = ' ';
-            historyCardButton.innerHTML = newBtn;
+            newBtn.setAttribute("data-city", historyList[i]);
+            newBtn.classList.add('btn');
+            newBtn.textContent = historyList[i];
+            historyCardButtonContainer.append(newBtn);
         }
 
     }
@@ -186,25 +187,29 @@ loadHistory();
 
 //click history list btn
 var historySearchButton = function (event) {
-    event.preventDefault();
-    // var cityName = event.target.getAttribute('history-search-list');
-    var cityName = document.getElementById("history-search-list");
-    var cityNameSearch = cityName.textContent;
-    console.log(cityNameSearch);
 
-    if (cityNameSearch) {
-        fetchWeather(cityNameSearch);
+    var cityName = event.target.getAttribute('data-city');
+    // var cityNameSearch = cityName.textContent;
+    console.log(cityName);
+    fiveDayforcastCardEl.textContent = "";
+    currentWeatherContainerEl.textContent = "";
 
+    if (cityName) {
+        fetchWeather(cityName);
     }
 }
-historySearchListEl.addEventListener("click", historySearchButton);
+historyCardButtonContainer.addEventListener("click", historySearchButton);
 
 //clear search history
 
-var clearHistory = function (event) {
-    event.preventDefault();
+var clearHistory = function () {
+
     localStorage.removeItem('searchWeather');
-    clearHistory.className = "hidden";
+    historyCardButtonContainer.textContent = "";
+    // historyCardButton.textContent = "";
+    fiveDayforcastCardEl.textContent = "";
+    currentWeatherContainerEl.textContent = "";
+
 }
 
 clearHistoryEl.addEventListener('click', clearHistory)
